@@ -1,0 +1,12 @@
+diff -r 0d74e36a1f23 -r afee7c6c3272 drivers/clk/clk.c
+--- a/drivers/clk/clk.c	Mon Jan 29 15:03:08 2024 +0700
++++ b/drivers/clk/clk.c	Mon Jan 29 15:33:46 2024 +0700
+@@ -3131,7 +3131,7 @@
+ }
+ DEFINE_SHOW_ATTRIBUTE(clk_dump);
+ 
+-#define CLOCK_ALLOW_WRITE_DEBUGFS
++#undef CLOCK_ALLOW_WRITE_DEBUGFS
+ #ifdef CLOCK_ALLOW_WRITE_DEBUGFS
+ /*
+  * This can be dangerous, therefore don't provide any real compile time
