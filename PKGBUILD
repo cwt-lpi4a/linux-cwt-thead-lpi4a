@@ -85,7 +85,7 @@ _package() {
 
   echo "Installing dtbs..."
   make -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/usr/share/dtbs/$kernver" dtbs_install
-  make -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/" dtbs_install
+  make -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/arch-cwt" dtbs_install
 
   # remove build links
   rm "$modulesdir"/build
