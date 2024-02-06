@@ -1,0 +1,5 @@
+config.new
+pkg
+src
+thead-kernel
+*.pkg.tar.zst
