@@ -1,7 +1,7 @@
-diff -r d937fec18973 -r 0d74e36a1f23 arch/riscv/Makefile
---- a/arch/riscv/Makefile	Mon Jan 29 15:02:42 2024 +0700
-+++ b/arch/riscv/Makefile	Mon Jan 29 15:03:08 2024 +0700
-@@ -53,19 +53,78 @@
+diff -r 1c4ef8bd2462 arch/riscv/Makefile
+--- a/arch/riscv/Makefile	Mon Feb 19 10:14:56 2024 +0700
++++ b/arch/riscv/Makefile	Mon Feb 19 11:04:08 2024 +0700
+@@ -53,19 +53,73 @@
  riscv-march-$(CONFIG_FPU)		:= $(riscv-march-y)fd
  riscv-march-$(CONFIG_RISCV_ISA_C)	:= $(riscv-march-y)c
  
@@ -18,13 +18,9 @@ diff -r d937fec18973 -r 0d74e36a1f23 arch/riscv/Makefile
  riscv-march-$(toolchain-need-zicsr-zifencei) := $(riscv-march-y)_zicsr_zifencei
  
 -KBUILD_CFLAGS += -march=$(subst _xtheadc,,$(subst v0p7,,$(subst fd,,$(riscv-march-y))))
-+# Fix mainline build
-+toolchain-have-v0p7 := $(call cc-option-yn, -march=$(riscv-march-y)v0p7)
-+riscv-march-$(toolchain-have-v0p7) := $(riscv-march-y)v0p7
-+
 +# Check for T-Head ISA extensions on TH1520 (C910)
-+toolchain-have-xtheadc := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadc)
-+riscv-march-$(toolchain-have-xtheadc) := $(riscv-march-y)_xtheadc
++toolchain-have-zfh := $(call cc-option-yn, -march=$(riscv-march-y)_zfh)
++riscv-march-$(toolchain-have-v0p7) := $(riscv-march-y)_zfh
 +
 +toolchain-have-xtheadba := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadba)
 +riscv-march-$(toolchain-have-xtheadba) := $(riscv-march-y)_xtheadba
@@ -63,14 +59,13 @@ diff -r d937fec18973 -r 0d74e36a1f23 arch/riscv/Makefile
 +toolchain-have-xtheadsync := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadsync)
 +riscv-march-$(toolchain-have-xtheadsync) := $(riscv-march-y)_xtheadsync
 +
-+toolchain-have-xtheadvector := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadvector)
-+riscv-march-$(toolchain-have-xtheadvector) := $(riscv-march-y)_xtheadvector
++toolchain-have-xtheadvector := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadvector1p0)
++riscv-march-$(toolchain-have-xtheadvector) := $(riscv-march-y)_xtheadvector1p0
 +
 +# Strip floating-point and vector related ISA extensions out of CFLAGS, but keep them on AFLAGS
 +riscv-march-cflags := $(riscv-march-y)
 +riscv-march-cflags := $(subst fd,,$(riscv-march-cflags))
-+riscv-march-cflags := $(subst v0p7,,$(riscv-march-cflags))
-+riscv-march-cflags := $(subst _xtheadc_,_,$(riscv-march-cflags))
++riscv-march-cflags := $(subst _zfh,,$(riscv-march-cflags))
 +#riscv-march-cflags := $(subst _xtheadba,,$(riscv-march-cflags))
 +#riscv-march-cflags := $(subst _xtheadbb,,$(riscv-march-cflags))
 +#riscv-march-cflags := $(subst _xtheadbs,,$(riscv-march-cflags))
@@ -83,7 +78,7 @@ diff -r d937fec18973 -r 0d74e36a1f23 arch/riscv/Makefile
 +#riscv-march-cflags := $(subst _xtheadmemidx,,$(riscv-march-cflags))
 +#riscv-march-cflags := $(subst _xtheadmempair,,$(riscv-march-cflags))
 +#riscv-march-cflags := $(subst _xtheadsync,,$(riscv-march-cflags))
-+riscv-march-cflags := $(subst _xtheadvector,,$(riscv-march-cflags))
++riscv-march-cflags := $(subst _xtheadvector1p0,,$(riscv-march-cflags))
 +KBUILD_CFLAGS += -march=$(riscv-march-cflags)
  KBUILD_AFLAGS += -march=$(riscv-march-y)
  
