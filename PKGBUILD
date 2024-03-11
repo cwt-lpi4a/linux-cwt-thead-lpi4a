@@ -26,7 +26,7 @@ sha256sums=('SKIP'
             '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
             '707d3a1c2a9c41613fb086208808ba5b61c776c8903de1e27d92d6fb5bc3fe70'
             'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
-            'b12895f9020d124af74d996a4f2be4dc246f49bda868f5a48003a84a4516b4b6')
+            '9df4fa1b6b6cca28beaa5994f10e1ed37f49945bd52c35037f2f89d67255c156')
 
 pkgver() {
     cd "$srcdir/$_srcname"
