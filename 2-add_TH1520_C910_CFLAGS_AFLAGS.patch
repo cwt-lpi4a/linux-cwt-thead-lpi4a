@@ -1,7 +1,8 @@
-diff -r 1c4ef8bd2462 arch/riscv/Makefile
---- a/arch/riscv/Makefile	Mon Feb 19 10:14:56 2024 +0700
-+++ b/arch/riscv/Makefile	Mon Feb 19 11:04:08 2024 +0700
-@@ -53,19 +53,73 @@
+diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+index 67c2117e8..e94d7b1c3 100644
+--- a/arch/riscv/Makefile
++++ b/arch/riscv/Makefile
+@@ -53,19 +53,76 @@ riscv-march-$(CONFIG_ARCH_RV64I)	:= rv64ima
  riscv-march-$(CONFIG_FPU)		:= $(riscv-march-y)fd
  riscv-march-$(CONFIG_RISCV_ISA_C)	:= $(riscv-march-y)c
  
@@ -40,8 +41,11 @@ diff -r 1c4ef8bd2462 arch/riscv/Makefile
 +toolchain-have-xtheadfmemidx := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadfmemidx)
 +riscv-march-$(toolchain-have-xtheadfmemidx) := $(riscv-march-y)_xtheadfmemidx
 +
++# xtheadfmv only available in RV32
++ifeq ($(CONFIG_ARCH_RV32I),y)
 +toolchain-have-xtheadfmv := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadfmv)
 +riscv-march-$(toolchain-have-xtheadfmv) := $(riscv-march-y)_xtheadfmv
++endif
 +
 +toolchain-have-xtheadint := $(call cc-option-yn, -march=$(riscv-march-y)_xtheadint)
 +riscv-march-$(toolchain-have-xtheadint) := $(riscv-march-y)_xtheadint
