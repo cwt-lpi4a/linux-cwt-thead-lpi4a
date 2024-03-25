@@ -20,9 +20,9 @@ source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   'linux.preset'
   '90-linux.hook')
 
-sha256sums=('SKIP'
+sha256sums=('e6a9fe91a73483bf8b9424598b584720fe33bcc4fe8cd712ed62414d9b3d8ee9'
             'ea7f882f3acb349cf357bf580a051f6a1cd08332e86511dc7070ff835aec9104'
-            'c97aabaa30911d53bc29722ba70d60275d737a07e20951f3e094b0634eb7d313'
+            '657b693a99299acd850f7792ceaf4810a46d47c4ba10274bb1c4cc13c748038e'
             '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
             '707d3a1c2a9c41613fb086208808ba5b61c776c8903de1e27d92d6fb5bc3fe70'
             'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
