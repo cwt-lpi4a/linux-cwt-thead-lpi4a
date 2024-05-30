@@ -2,15 +2,15 @@
 
 pkgbase=linux-cwt-510-thead-lpi4a
 _variant=cwt
-_commit=90bcc90cb8fbf50f88fefb303a62411ea4fa6545
-pkgver=r233.90bcc90cb
+_commit=89d6663712b0a29b3ef41c545e31ce9f1f19d6e8
+pkgver=r246.89d666371
 pkgrel=1
 _desc='Linux 5.10.x (-cwt) for Sipeed Lichee Pi 4A'
 _srcname=thead-kernel
 url="https://github.com/revyos/thead-kernel"
 arch=(riscv64)
 license=('GPL2')
-makedepends=(bc libelf pahole cpio perl tar xz gcc)
+makedepends=(bc libelf pahole cpio perl tar xz gcc13)
 options=('!strip')
 source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   '1-double_size_of_KSYM_NAME_LEN_to_support_very_long_T-HEAD_ISA_extensions.patch'
@@ -20,13 +20,13 @@ source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   'linux.preset'
   '90-linux.hook')
 
-sha256sums=('SKIP'
+sha256sums=('e1d423516811757b3241728dc92fc1d3187acfa6aeb8ae00b47caa6851c168d4'
             'ea7f882f3acb349cf357bf580a051f6a1cd08332e86511dc7070ff835aec9104'
             '657b693a99299acd850f7792ceaf4810a46d47c4ba10274bb1c4cc13c748038e'
             '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
-            '9cf94e871f254d550e8eb294b751ae89682e8852264616b9c4a516cb5e01414f'
+            'bedd93ce7cfdf31dea96b51b9e8c3f881911990f3001f66b3e3a942a96eedc80'
             'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
-            'a04d4df28c7e96736837022187fd7a86ed73d94da7212ae0f79f9afa24fd1428')
+            '8df135c8777ac283b470036fc6b0c738ccf0f17d031bd4c5f465dbb91b983d72')
 
 pkgver() {
     cd "$srcdir/$_srcname"
@@ -51,17 +51,17 @@ prepare() {
   echo "Setting config..."
   cp ../config .config
   unset CFLAGS
-  make -j $(nproc) olddefconfig
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) olddefconfig
   cp .config ../../config.new
 
-  make -j $(nproc) -s kernelrelease >version
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) -s kernelrelease >version
   echo "Prepared $pkgbase version $(<version)"
 }
 
 build() {
   unset CFLAGS
   cd $_srcname
-  make -j $(nproc) all
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) all
 }
 
 _package() {
@@ -81,11 +81,11 @@ _package() {
   install -Dm644 "arch/riscv/boot/Image" "$pkgdir/boot/vmlinux"
 
   echo "Installing modules..."
-  make -j $(nproc) INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
 
   echo "Installing dtbs..."
-  make -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/usr/share/dtbs/$kernver" dtbs_install
-  make -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/arch-cwt" dtbs_install
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/usr/share/dtbs/$kernver" dtbs_install
+  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/arch-cwt" dtbs_install
 
   # remove build links
   rm "$modulesdir"/build
