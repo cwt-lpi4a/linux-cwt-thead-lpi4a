@@ -2,15 +2,15 @@
 
 pkgbase=linux-cwt-510-thead-lpi4a
 _variant=cwt
-_commit=89d6663712b0a29b3ef41c545e31ce9f1f19d6e8
-pkgver=r246.89d666371
+_commit=72467de009cffd1de8660c64ce351d6cd4745706
+pkgver=r257.72467de00
 pkgrel=1
 _desc='Linux 5.10.x (-cwt) for Sipeed Lichee Pi 4A'
 _srcname=thead-kernel
 url="https://github.com/revyos/thead-kernel"
 arch=(riscv64)
 license=('GPL2')
-makedepends=(bc libelf pahole cpio perl tar xz gcc13)
+makedepends=(bc libelf pahole cpio perl tar xz gcc13 inetutils)
 options=('!strip')
 source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   '1-double_size_of_KSYM_NAME_LEN_to_support_very_long_T-HEAD_ISA_extensions.patch'
@@ -20,13 +20,13 @@ source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   'linux.preset'
   '90-linux.hook')
 
-sha256sums=('e1d423516811757b3241728dc92fc1d3187acfa6aeb8ae00b47caa6851c168d4'
+sha256sums=('4fefbd5c85fe337c63e02e57d47eb55fc940171baecb08863b1e49d3e48a084c'
             'ea7f882f3acb349cf357bf580a051f6a1cd08332e86511dc7070ff835aec9104'
             '657b693a99299acd850f7792ceaf4810a46d47c4ba10274bb1c4cc13c748038e'
             '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
-            'bedd93ce7cfdf31dea96b51b9e8c3f881911990f3001f66b3e3a942a96eedc80'
+            '30eef2ea39978f1060401c14ef6a0fc346498dbf8cf6e423b8342a7bdff4325c'
             'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
-            '8df135c8777ac283b470036fc6b0c738ccf0f17d031bd4c5f465dbb91b983d72')
+            'ff733d720e7e7f2f3342e992e1413d13bcb45b9e01596c8ef2d9234fb9e5dba8')
 
 pkgver() {
     cd "$srcdir/$_srcname"

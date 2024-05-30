@@ -8,4 +8,4 @@ Target = usr/lib/initcpio/*
 [Action]
 Description = Updating linux initcpios...
 When = PostTransaction
-Exec = /usr/bin/mkinitcpio -p linux -k 5.10.113-cwt-r246.89d666371-1+
+Exec = /usr/bin/mkinitcpio -p linux -k 5.10.113-cwt-r257.72467de00-1+
