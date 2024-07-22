@@ -2,8 +2,8 @@
 
 pkgbase=linux-cwt-510-thead-lpi4a
 _variant=cwt
-_commit=719387f851d9cdaaaff024b7067523c9370c75ab
-pkgver=r263.719387f85
+_commit=f6b3a51dabe3da53fbfc18cb0d53278ec686cacb
+pkgver=r277.f6b3a51da
 pkgrel=1
 _desc='Linux 5.10.x (-cwt) for Sipeed Lichee Pi 4A'
 _srcname=thead-kernel
@@ -20,13 +20,13 @@ source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   'linux.preset'
   '90-linux.hook')
 
-sha256sums=('85898b9840efe19effd7a80cc021abdfc6907ed7bed35c1401af8503d2ca63ad'
+sha256sums=('64a5c724ca77db4bae55c66885ab3eb90330cace33a5d4580421edb88c111907'
             'ea7f882f3acb349cf357bf580a051f6a1cd08332e86511dc7070ff835aec9104'
             '657b693a99299acd850f7792ceaf4810a46d47c4ba10274bb1c4cc13c748038e'
             '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
-            'fe0eec3d0965d3a2509d55a710b2e83fc9bc39d70bf1b60256d1c0f8ca26bb00'
+            'e204fed0f9ee3afc241ac470b8699c86b0a0bc02e30028f9e81314037b835977'
             'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
-            'f737a27e3dcda7fe443f1d088ecd0d0a325ea73ad02ec4fbda17da4601b62a68')
+            '6046f99d81b92dfd5838f92900b5ed5c3a169ca1d89728056b10056e95a03ec7')
 
 pkgver() {
     cd "$srcdir/$_srcname"
