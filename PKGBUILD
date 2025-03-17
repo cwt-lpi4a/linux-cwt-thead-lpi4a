@@ -2,8 +2,8 @@
 
 pkgbase=linux-cwt-510-thead-lpi4a
 _variant=cwt
-_commit=f6b3a51dabe3da53fbfc18cb0d53278ec686cacb
-pkgver=r277.f6b3a51da
+_commit=b9cf70c75d2b7482195a94e754d59f8cfc9dda2c
+pkgver=r278.b9cf70c75
 pkgrel=1
 _desc='Linux 5.10.x (-cwt) for Sipeed Lichee Pi 4A'
 _srcname=thead-kernel
@@ -20,13 +20,13 @@ source=("git+https://github.com/revyos/thead-kernel.git#commit=$_commit"
   'linux.preset'
   '90-linux.hook')
 
-sha256sums=('64a5c724ca77db4bae55c66885ab3eb90330cace33a5d4580421edb88c111907'
-            'ea7f882f3acb349cf357bf580a051f6a1cd08332e86511dc7070ff835aec9104'
-            '657b693a99299acd850f7792ceaf4810a46d47c4ba10274bb1c4cc13c748038e'
-            '5528eb99523e64db2d65a0bc6b988c2bfabbadab680ab71990bd0185c57de4c3'
-            'e204fed0f9ee3afc241ac470b8699c86b0a0bc02e30028f9e81314037b835977'
-            'e4ff5cbb56c569e7879152b0b41789302f6ede3ddf0a48f2290caa3373a52dff'
-            '6046f99d81b92dfd5838f92900b5ed5c3a169ca1d89728056b10056e95a03ec7')
+b2sums=('d99a28af7efba717cf495797dd38d11ed4723f6c0c8ca217432ed4965240ab9bfa7c551c3cbb6722b5addb74ae0575761bab35220bf4b310d86b632812c70065'
+        'b0641363a1319c9cacef9f850198a4e4f6e7f4ab79f0db536e5d04f60468ccf072d13d398da398016fc0c47b54610acc7629796decfc39c815352d321ce8b2a3'
+        '3b40ea9e2da9d96dcb4cef03fb162a77fd4c79dc2ba943ef4c1f1996b9e4854fa1a6ac2d2bfa17b988f114220e887fcc0da5b8f1e2c279b3c2c720d686fae2e2'
+        'f9d7989fea320e9ddef43886d261036c96d3dc57f6d727a07a3bf98b8aed53c18f1166bae4c4c1281ae805388e5044f5404315c8ebbd8d2a54decdf25df2d1d4'
+        '910c0c213c597d1d83a8269290fc79bcdc67eabd8ef949bab0354a2651abbbf57a6074cce68009254849c6933da4cae66f952a159ddf1d6131fc6690e912f5be'
+        'ee004ec1cf9161a960cb9273dd9446bd072c0ff36ccd843e9ed8fed70e3290a5450641798d060f1a20d5a6578e1b47f0b789480aacba7ae0c04ef37c6dbeff0b'
+        '0b805af326bbd66b22a8ba0a474f255c4199746160d3ff387a508c0dfc3696cb8e5a459edc325f4adbb5e12ae0167bad1fe9b5b6dbcc1a6a115d40f0363d7a56')
 
 pkgver() {
     cd "$srcdir/$_srcname"
@@ -51,17 +51,29 @@ prepare() {
   echo "Setting config..."
   cp ../config .config
   unset CFLAGS
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) olddefconfig
+  CCACHE=$(which ccache 2>/dev/null)
+  if [ "$CCACHE" != "" ]; then
+    gcc="${CCACHE} gcc-13"
+  else
+    gcc="gcc-13"
+  fi
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) olddefconfig
   cp .config ../../config.new
 
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) -s kernelrelease >version
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) -s kernelrelease >version
   echo "Prepared $pkgbase version $(<version)"
 }
 
 build() {
-  unset CFLAGS
   cd $_srcname
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) all
+  unset CFLAGS
+  CCACHE=$(which ccache 2>/dev/null)
+  if [ "$CCACHE" != "" ]; then
+    gcc="${CCACHE} gcc-13"
+  else
+    gcc="gcc-13"
+  fi
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) all
 }
 
 _package() {
@@ -81,11 +93,17 @@ _package() {
   install -Dm644 "arch/riscv/boot/Image" "$pkgdir/boot/vmlinux"
 
   echo "Installing modules..."
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
+  CCACHE=$(which ccache 2>/dev/null)
+  if [ "$CCACHE" != "" ]; then
+    gcc="${CCACHE} gcc-13"
+  else
+    gcc="gcc-13"
+  fi
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
 
   echo "Installing dtbs..."
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/usr/share/dtbs/$kernver" dtbs_install
-  make HOSTCC=/usr/bin/gcc-13 CC=/usr/bin/gcc-13 -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/arch-cwt" dtbs_install
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/usr/share/dtbs/$kernver" dtbs_install
+  make HOSTCC="${gcc}" CC="${gcc}" -j $(nproc) INSTALL_DTBS_PATH="$pkgdir/boot/dtbs/arch-cwt" dtbs_install
 
   # remove build links
   rm "$modulesdir"/build
